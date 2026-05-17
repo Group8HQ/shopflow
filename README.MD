@@ -1,0 +1,235 @@
+## ShopFlow - Retail Management System
+
+ShopFlow is a simple web-based Retail Management System developed using PHP, HTML, CSS, JavaScript, and MySQL.
+
+The system helps shop owners keep records of items, purchases, and sales.
+
+---
+
+### Features
+
+- User signup
+- User login
+- Record items
+- Record purchases
+- Record sales
+- View item list
+- View purchase list
+- View sales list
+- User profile
+- Password reset
+
+---
+
+### Technologies Used
+
+- HTML
+- CSS
+- JavaScript
+- PHP
+- MySQL
+- Git & GitHub
+
+---
+
+### Project Structure
+
+```text
+shopflow/
+│
+├── login/
+├── signup/
+├── dashboard/
+├── item-form/
+├── purchase-form/
+├── sale-form/
+├── item-list/
+├── purchase-list/
+├── sale-list/
+├── profile/
+│
+├── index.php
+└── README.md
+```
+
+## Project Setup Guide
+
+This guide explains how to set up the ShopFlow project on your computer and how team members should work on the project using Git and GitHub.
+
+---
+
+#### Cloning the Project
+Open Terminal or Git Bash and run:
+
+```bash
+git clone https://github.com/Group8HQ/shopflow.git
+```
+
+Move into the project folder:
+
+```bash
+cd shopflow
+```
+
+---
+
+#### Opening the Project
+
+Open the project in VS Code:
+
+Or open the folder manually from your code editor.
+
+---
+
+## Creating Your Branch
+
+Before writing any code, switch to your branch.
+**I repeat, first switch to your branch before writing any code**
+
+Example:
+
+```bash
+git checkout login
+```
+
+Other examples:
+
+```bash
+git checkout item-form
+git checkout purchase-form 
+git checkout sale-list
+```
+
+Every team member must work on their own branch.
+**Do not work** directly on the `main` branch.
+
+---
+
+## Working Inside Your Folder
+
+Each person should only work inside their assigned folder.
+
+Example folders:
+
+```text
+sale-form/
+item-form/
+profile/
+dashboard/
+```
+
+Do not edit files inside another person's folder unless told to do so.
+
+---
+
+## Managing Your Assets
+
+All your CSS, JavaScript, and image files should stay inside your folder.
+
+Example:
+
+```text
+sale-form/
+├── sale-form.php
+├── sale-form.css
+├── sale-form.js
+└── images/
+```
+
+Do not create shared CSS or JavaScript files outside your folder.
+
+---
+
+## Setting Up the Database
+
+Open phpMyAdmin and create a database called:
+
+```text
+shopflow
+```
+
+Because everyone is using localhost, each person will manage their own database connection.
+
+Example database connection:
+
+```php
+<?php
+
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "shopflow";
+
+$conn = mysqli_connect($host, $user, $pass, $dbname);
+
+?>
+```
+
+Change the password if your MySQL password is different.
+
+---
+
+## Saving Your Work
+
+Before pushing your work, check your changes:
+
+```bash
+git status
+```
+
+Add your files:
+
+```bash
+git add .
+```
+
+Commit your work:
+
+```bash
+git commit -m "Added sales form"
+```
+
+Use clear commit messages explaining what you changed.
+
+---
+
+## Pushing Your Work
+
+Push your branch to GitHub:
+
+```bash
+git push origin branch_name
+```
+
+Replace `branch_name` with your branch name.
+
+Example:
+
+```bash
+git push origin item-list
+```
+
+---
+
+# Important Rules
+
+- Do not push directly to `main`
+- Only work inside your assigned folder
+- Keep your assets inside your folder
+- Commit your work regularly
+- Test your code before pushing
+- Use clear commit messages
+- Do not delete another person's files
+
+---
+
+# Pull Requests
+
+After finishing your work:
+
+1. Open the repository on GitHub
+2. Click **Compare & pull request**
+3. Submit your Pull Request
+4. Wait for review before merging
+
+---
