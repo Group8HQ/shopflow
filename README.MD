@@ -80,11 +80,15 @@ cd shopflow
 
 Open the project in VS Code:
 
+```bash
+code .
+```
+
 Or open the folder manually from your code editor.
 
 ---
 
-## Creating Your Branch
+## Switching to Your Branch
 
 Before writing any code, switch to your branch.
 **I repeat, first switch to your branch before writing any code**
@@ -148,7 +152,16 @@ Do not create shared CSS or JavaScript files outside your folder.
 Open phpMyAdmin and create a database called:
 
 ```text
-shopflow
+shopflow 
+```
+```
+encoding: utf8_general_ci
+```
+
+Then import the shopflow.sql database in this repo
+
+```
+./shopflow.sql
 ```
 
 Because everyone is using localhost, each person will manage their own database connection.
@@ -204,13 +217,25 @@ Push your branch to GitHub:
 git push origin branch_name
 ```
 
-Replace `branch_name` with your branch name.
+Replace `branch_name` with the branch name you're working on.
 
 Example:
 
 ```bash
 git push origin item-list
 ```
+
+---
+
+## Pull Requests
+
+After finishing your work:
+
+1. Open the repository on GitHub
+2. Click **Pull Requets and then New Pull request**
+3. Create a pull request from your branch to the main branch
+4. **Base: main** <- **Compare: Your branch**
+3. Submit your Pull Request
 
 ---
 
@@ -226,15 +251,6 @@ git push origin item-list
 
 ---
 
-## Pull Requests
-
-After finishing your work:
-
-1. Open the repository on GitHub
-2. Click **Compare & pull request**
-3. Submit your Pull Request
-
----
 
 ## Team Allocation
 
@@ -262,10 +278,56 @@ Design Reference: https://www.figma.com/design/CgchNWRhxQBGLYQokhlwIV/Shopflow?n
 Each team member should:
 
 - Work only inside their assigned folder
-- Create and use their assigned branch
 - Keep all CSS, JS, and image files inside their folder
 - Avoid editing another person's files
 - Push work to their own branch only
 
 Thank you for your contribution 
 Signed_________________4m05
+
+### Database 
+
+```
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    item_id VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(150) NOT NULL,
+    supplier VARCHAR(150),
+    description TEXT
+);
+
+CREATE TABLE purchases (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    purchase_id VARCHAR(50) NOT NULL UNIQUE,
+    date DATE NOT NULL,
+    item_id VARCHAR(50) NOT NULL,
+    quantity INT NOT NULL,
+    unit_cost DECIMAL(10,2) NOT NULL,
+    total_cost DECIMAL(10,2) NOT NULL,
+    
+    FOREIGN KEY (item_id) REFERENCES items(item_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+CREATE TABLE sales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sale_id VARCHAR(50) NOT NULL UNIQUE,
+    date DATE NOT NULL,
+    item_id VARCHAR(50) NOT NULL,
+    quantity INT NOT NULL,
+    unit_price DECIMAL(10,2) NOT NULL,
+    total_price DECIMAL(10,2) NOT NULL,
+
+    FOREIGN KEY (item_id) REFERENCES items(item_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+```
