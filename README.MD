@@ -30,6 +30,9 @@ The system helps shop owners keep records of items, purchases, and sales.
 - MySQL
 - Git & GitHub
 
+#### Design Reference
+https://www.figma.com/design/CgchNWRhxQBGLYQokhlwIV/Shopflow?node-id=0-1&t=1Yw67sJav26gozfg-1
+
 ---
 
 ### Project Structure
@@ -236,6 +239,8 @@ After finishing your work:
 ## Team Allocation
 
 The following are the assigned folders, branches, and screens for each team member.
+
+Design Reference: https://www.figma.com/design/CgchNWRhxQBGLYQokhlwIV/Shopflow?node-id=0-1&t=1Yw67sJav26gozfg-1
 
 | Team Member | Folder | Branch Name |
 |---|---|---|
