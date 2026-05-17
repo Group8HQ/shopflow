@@ -211,7 +211,7 @@ git push origin item-list
 
 ---
 
-# Important Rules
+## Important Rules
 
 - Do not push directly to `main`
 - Only work inside your assigned folder
@@ -223,13 +223,44 @@ git push origin item-list
 
 ---
 
-# Pull Requests
+## Pull Requests
 
 After finishing your work:
 
 1. Open the repository on GitHub
 2. Click **Compare & pull request**
 3. Submit your Pull Request
-4. Wait for review before merging
 
 ---
+
+## Team Allocation
+
+The following are the assigned folders, branches, and screens for each team member.
+
+| Team Member | Folder | Branch Name |
+|---|---|---|
+| Wandeya Fahad | `login/` | `login` |
+| Muganwa Anthony | `signup/` | `signup` |
+| Sekamatte Amos Kwagala | `dashboard/` | `dashboard` |
+| Atukunda Blessing Faith | `item-form/` | `item-form` |
+| Mugeni Oustine | `purchase-form/` | `purchase-form` |
+| Kizito Felix | `sale-form/` | `sale-form` |
+| Bwambale Steven | `item-list/` | `item-list` |
+| Anguzu Walter | `purchase-list/` | `purchase-list` |
+| Namuli Swafiah | `sale-list/` | `sale-list` |
+| Ahishar Jeduthun Osire | `profile/` | `profile` |
+
+---
+
+## Important
+
+Each team member should:
+
+- Work only inside their assigned folder
+- Create and use their assigned branch
+- Keep all CSS, JS, and image files inside their folder
+- Avoid editing another person's files
+- Push work to their own branch only
+
+Thank you for your contribution 
+Signed_________________4m05
