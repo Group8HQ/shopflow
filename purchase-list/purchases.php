@@ -1,103 +1,134 @@
 <?php
 // ─── Database Configuration ───────────────────────────────────────────────────
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'shopflow');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_CHARSET', 'utf8mb3_general_ci');
+$host    = 'localhost';
+$db_name = 'shopflow';
+$user    = 'root';
+$pass    = '';
 
 // ─── Pagination Settings ──────────────────────────────────────────────────────
-define('RECORDS_PER_PAGE', 5);
+$records_per_page = 5;
 
 // ─── Connect to Database ──────────────────────────────────────────────────────
-function getDB(): PDO {
-    static $pdo = null;
-    if ($pdo === null) {
-        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
-        $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ];
-        $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+function getDB() {
+    global $host, $db_name, $user, $pass;
+
+    static $conn = null;
+
+    if ($conn == null) {
+        $conn = mysqli_connect($host, $user, $pass, $db_name);
+
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        mysqli_set_charset($conn, 'utf8_general_ci');
     }
-    return $pdo;
+
+    return $conn;
 }
 
 // ─── Fetch Summary Stats ──────────────────────────────────────────────────────
-function fetchSummary(): array {
-    $pdo = getDB();
-    $stmt = $pdo->query("
-        SELECT
-            COALESCE(SUM(total_cost), 0)     AS total_purchases,
-            COALESCE(SUM(quantity_purchased), 0) AS total_units
-        FROM purchases
-    ");
-    return $stmt->fetch();
+function fetchSummary() {
+    $conn = getDB();
+
+    $sql    = "SELECT COALESCE(SUM(total_cost), 0) AS total_purchases, COALESCE(SUM(quantity_purchased), 0) AS total_units FROM purchases";
+    $result = mysqli_query($conn, $sql);
+    $row    = mysqli_fetch_assoc($result);
+
+    return $row;
 }
 
 // ─── Fetch Paginated Purchase Records ────────────────────────────────────────
-function fetchPurchases(int $page): array {
-    $pdo    = getDB();
-    $offset = ($page - 1) * RECORDS_PER_PAGE;
+function fetchPurchases($page) {
+    global $records_per_page;
 
-    $stmt = $pdo->prepare("
-        SELECT
-            p.id,
-            p.purchase_date,
-            p.item_id,
-            p.quantity_purchased,
-            p.unit_cost,
-            p.total_cost
-        FROM purchases p
-        ORDER BY p.purchase_date DESC
-        LIMIT :limit OFFSET :offset
-    ");
-    $stmt->bindValue(':limit',  RECORDS_PER_PAGE, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', $offset,          PDO::PARAM_INT);
-    $stmt->execute();
+    $conn   = getDB();
+    $limit  = $records_per_page;
+    $offset = ($page - 1) * $limit;
 
-    return $stmt->fetchAll();
+    $sql  = "SELECT p.id, p.purchase_date, p.item_id, p.quantity_purchased, p.unit_cost, p.total_cost FROM purchases p ORDER BY p.purchase_date DESC LIMIT ? OFFSET ?";
+    $stmt = mysqli_prepare($conn, $sql);
+
+    mysqli_stmt_bind_param($stmt, 'ii', $limit, $offset);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    $purchases = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $purchases[] = $row;
+    }
+
+    return $purchases;
 }
 
 // ─── Count Total Records (for pagination) ────────────────────────────────────
-function fetchTotalRecords(): int {
-    $pdo  = getDB();
-    $stmt = $pdo->query("SELECT COUNT(*) FROM purchases");
-    return (int) $stmt->fetchColumn();
+function fetchTotalRecords() {
+    $conn = getDB();
+
+    $sql    = "SELECT COUNT(*) AS total FROM purchases";
+    $result = mysqli_query($conn, $sql);
+    $row    = mysqli_fetch_assoc($result);
+
+    return (int) $row['total'];
 }
 
 // ─── Handle Delete Action ─────────────────────────────────────────────────────
-function deletePurchase(int $id): void {
-    $pdo  = getDB();
-    $stmt = $pdo->prepare("DELETE FROM purchases WHERE id = :id");
-    $stmt->execute([':id' => $id]);
+function deletePurchase($id) {
+    $conn = getDB();
+
+    $sql  = "DELETE FROM purchases WHERE id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+
+    mysqli_stmt_bind_param($stmt, 'i', $id);
+    mysqli_stmt_execute($stmt);
 }
 
 // ─── Process POST Actions ─────────────────────────────────────────────────────
 $message = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
     if (isset($_POST['delete_id']) && is_numeric($_POST['delete_id'])) {
         deletePurchase((int) $_POST['delete_id']);
         $message = 'Purchase record deleted successfully.';
     }
-    // Redirect to avoid re-submission on refresh
+
     $redirectPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
     header("Location: purchases.php?page=$redirectPage&msg=" . urlencode($message));
     exit;
 }
 
 // ─── Gather Data ─────────────────────────────────────────────────────────────
-$currentPage   = isset($_GET['page']) && is_numeric($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
-$totalRecords  = fetchTotalRecords();
-$totalPages    = max(1, (int) ceil($totalRecords / RECORDS_PER_PAGE));
-$currentPage   = min($currentPage, $totalPages);
-$purchases     = fetchPurchases($currentPage);
-$summary       = fetchSummary();
-$flashMessage  = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : '';
+$currentPage = 1;
+if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+    $currentPage = (int) $_GET['page'];
+    if ($currentPage < 1) {
+        $currentPage = 1;
+    }
+}
+
+$totalRecords = fetchTotalRecords();
+$totalPages   = ceil($totalRecords / $records_per_page);
+
+if ($totalPages < 1) {
+    $totalPages = 1;
+}
+
+if ($currentPage > $totalPages) {
+    $currentPage = $totalPages;
+}
+
+$purchases    = fetchPurchases($currentPage);
+$summary      = fetchSummary();
+$flashMessage = '';
+
+if (isset($_GET['msg'])) {
+    $flashMessage = htmlspecialchars($_GET['msg']);
+}
 
 // ─── Helper: Format UGX ───────────────────────────────────────────────────────
-function formatUGX(float $amount): string {
+function formatUGX($amount) {
     return 'UGX ' . number_format($amount, 0, '.', ',');
 }
 ?>
