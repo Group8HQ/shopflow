@@ -96,15 +96,15 @@ Before writing any code, switch to your branch.
 Example:
 
 ```bash
-git checkout login
+git checkout -b login
 ```
 
 Other examples:
 
 ```bash
-git checkout item-form
-git checkout purchase-form 
-git checkout sale-list
+git checkout -b item-form
+git checkout -b purchase-form 
+git checkout -b sale-list
 ```
 
 Every team member must work on their own branch.
