@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -228,7 +229,8 @@
             align-items: center;
         }
 
-        input[type="text"], textarea {
+        input[type="text"],
+        textarea {
             width: 100%;
             background-color: #f4f5f7;
             border: 1px solid #e2e8f0;
@@ -240,11 +242,13 @@
             transition: all 0.2s;
         }
 
-        input[type="text"]::placeholder, textarea::placeholder {
+        input[type="text"]::placeholder,
+        textarea::placeholder {
             color: #8892b0;
         }
 
-        input[type="text"]:focus, textarea:focus {
+        input[type="text"]:focus,
+        textarea:focus {
             background-color: #ffffff;
             border-color: #ff5521;
             box-shadow: 0 0 0 3px rgba(255, 85, 33, 0.1);
@@ -257,7 +261,8 @@
 
         /* Specific Input Tweaks */
         .input-wrapper input {
-            padding-right: 40px; /* Leave space for inner icon */
+            padding-right: 40px;
+            /* Leave space for inner icon */
         }
 
         .inner-icon {
@@ -313,6 +318,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <aside class="sidebar">
@@ -368,29 +374,31 @@
                     </div>
                 </div>
 
-                <form>
+                <form action="item-form.php" method="POST">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="item-id">Item ID</label>
                             <div class="input-wrapper">
-                                <input type="text" id="item-id" placeholder="SM-PR-2024">
+                                <input type="text" id="item-id" name="item_id" placeholder="SM-PR-2024">
                                 <i class="fa-solid fa-arrows-rotate inner-icon"></i>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="item-name">Item Name *</label>
-                            <input type="text" id="item-name" placeholder="Enter formal product name" required>
+                            <input type="text" id="item-name" name="name" placeholder="Enter formal product name"
+                                required>
                         </div>
                     </div>
 
                     <div class="form-group full-width">
                         <label for="supplier">Supplier</label>
-                        <input type="text" id="supplier" placeholder="Provide a supplier">
+                        <input type="text" id="supplier" name="supplier" placeholder="Provide a supplier">
                     </div>
 
                     <div class="form-group full-width">
                         <label for="description">Description</label>
-                        <textarea id="description" placeholder="Enter detailed item description"></textarea>
+                        <textarea id="description" name="description"
+                            placeholder="Enter detailed item description"></textarea>
                     </div>
 
                     <div class="form-actions">
@@ -400,9 +408,11 @@
                         </button>
                     </div>
                 </form>
+
             </div>
         </main>
     </div>
 
 </body>
+
 </html>
