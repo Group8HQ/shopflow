@@ -1,0 +1,176 @@
+/* --- Reset & Base Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #F8F9FC; /* Soft, light off-white background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333333;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 440px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- Brand Header --- */
+.brand-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #A34A23; /* Earthy brown-orange from the logo */
+}
+
+.logo i {
+    font-size: 24px;
+}
+
+.tagline {
+    color: #666666;
+    font-size: 14px;
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+/* --- Card Styles --- */
+.login-card {
+    background: #FFFFFF;
+    width: 100%;
+    padding: 40px 32px;
+    border-radius: 12px;
+    border: 1px solid #EBE6E3;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.login-card h2 {
+    font-size: 22px;
+    color: #0F172A; /* Dark slate blue */
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.instruction {
+    font-size: 13.5px;
+    color: #64748B;
+    margin-bottom: 28px;
+}
+
+/* --- Form & Inputs --- */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 8px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border: 1px solid #DDD6D0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333333;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-wrapper input::placeholder {
+    color: #D1C7BD;
+}
+
+.input-wrapper input:focus {
+    border-color: #D37546;
+}
+
+/* Icons inside inputs */
+.input-icon {
+    position: absolute;
+    left: 14px;
+    color: #666666;
+    font-size: 16px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 14px;
+    color: #333333;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* --- Submit Button --- */
+.btn-submit {
+    width: 100%;
+    background-color: #D37546; /* Terracotta orange */
+    color: #FFFFFF;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #BE6437;
+}
+
+/* --- Footer Divider & Link --- */
+.divider {
+    height: 1px;
+    background-color: #EBE6E3;
+    margin: 24px 0;
+}
+
+.signup-prompt {
+    text-align: center;
+    font-size: 13.5px;
+    color: #475569;
+}
+
+.signup-prompt a {
+    color: #A34A23;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.signup-prompt a:hover {
+    text-decoration: underline;
+}
