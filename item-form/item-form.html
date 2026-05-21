@@ -26,84 +26,145 @@
             min-height: 100vh;
         }
 
-        /* --- SIDEBAR SYSTEM --- */
+        /* Sidebar */
         .sidebar {
-            width: 260px;
-            background-color: #fcfcfd;
-            border-right: 1px solid #f0f0f2;
-            padding: 32px 16px;
+            width: 230px;
+            background-color: #F7F7FA;
+            border-right: 1px solid #e8e8ed;
+            padding: 28px 0;
+            position: fixed;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            flex-shrink: 0;
         }
 
         .brand {
-            padding-left: 12px;
-            margin-bottom: 40px;
+            padding: 0 24px 28px;
+            border-bottom: 1px solid #e8e8ed;
         }
 
         .brand h1 {
-            color: #ff5521;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
-            line-height: 1.2;
+            color: #ED673A;
+            letter-spacing: -0.5px;
         }
 
-        .brand p {
-            color: #8a8a8a;
+        .brand span {
             font-size: 12px;
-            font-weight: 500;
+            color: #6b7280;
             margin-top: 2px;
+            display: block;
         }
 
+        /* Navigation */
         .nav-menu {
-            list-style: none;
+            padding: 20px 14px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
+            flex: 1;
         }
 
-        .nav-item a {
+        .nav-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px;
-            color: #555555;
+            padding: 11px 14px;
             text-decoration: none;
+            color: #4b5563;
             font-size: 14px;
             font-weight: 500;
-            border-radius: 8px;
-            transition: all 0.2s ease;
+            border-radius: 10px;
+            transition: all 0.15s ease;
         }
 
-        .nav-item a:hover {
-            background-color: #f3f4f6;
-            color: #1a1a1a;
+        .nav-item:hover {
+            background-color: #ededf2;
+            color: #1f2937;
         }
 
-        .nav-item a i {
+        .nav-item.active {
+            background-color: #ED673A;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(237, 103, 58, 0.3);
+        }
+
+        .nav-item i {
+            font-size: 15px;
             width: 20px;
-            font-size: 16px;
             text-align: center;
         }
 
-        /* Active State Style */
-        .nav-item.active a {
-            background-color: #ff5521;
-            color: #ffffff;
-            font-weight: 600;
+        .nav-item i.fa-gauge {
+            color: #ED673A;
         }
+
+        .nav-item i.fa-plus {
+            color: #10b981;
+        }
+
+        .nav-item i.fa-cart-shopping {
+            color: #3b82f6;
+        }
+
+        .nav-item i.fa-receipt {
+            color: #8b5cf6;
+        }
+
+        .nav-item i.fa-boxes-stacked {
+            color: #f59e0b;
+        }
+
+        .nav-item i.fa-file-invoice {
+            color: #06b6d4;
+        }
+
+        .nav-item i.fa-chart-line {
+            color: #ec4899;
+        }
+
+        .nav-item i.fa-user {
+            color: #6366f1;
+        }
+
+        .nav-item.active i,
+        .nav-item:hover i {
+            color: inherit;
+        }
+
+        /* Nav Sections */
+        .nav-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e8e8ed;
+        }
+
+        .nav-section-title {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 14px 10px;
+        }
+
 
         /* --- MAIN CONTENT LAYOUT --- */
         .main-wrapper {
             flex: 1;
+            margin-left: 230px;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         /* Top Bar Navigation Header */
         .top-navbar {
             height: 65px;
+            position: sticky;
+            top: 0;
             background-color: #ffffff;
             border-bottom: 1px solid #f0f0f2;
             display: flex;
@@ -321,34 +382,44 @@
 
 <body>
 
+
     <aside class="sidebar">
         <div class="brand">
             <h1>Shopflow</h1>
-            <p>SME Management</p>
+            <span>SME Management</span>
         </div>
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href=""><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
-            </li>
-            <li class="nav-item active">
-                <a href="#"><i class="fa-solid fa-square-plus"></i> New Item</a>
-            </li>
-            <li class="nav-item">
-                <a href="#"><i class="fa-solid fa-cart-shopping"></i> Record Purchase</a>
-            </li>
-            <li class="nav-item">
-                <a href="#"><i class="fa-solid fa-wallet"></i> Record Sale</a>
-            </li>
-            <li class="nav-item">
-                <a href="#"><i class="fa-solid fa-box-archive"></i> All Items</a>
-            </li>
-            <li class="nav-item">
-                <a href="#"><i class="fa-solid fa-receipt"></i> Purchases</a>
-            </li>
-            <li class="nav-item">
-                <a href="#"><i class="fa-solid fa-clock-history"></i> Sales</a>
-            </li>
-        </ul>
+        <nav class="nav-menu">
+            <a href="../dashboard/dashboard.php" class="nav-item">
+                <i class="fa-solid fa-gauge"></i> Dashboard
+            </a>
+            <div class="nav-section">
+                <span class="nav-section-title">Forms</span>
+                <a href="../item-form/item-form.html" class="nav-item active">
+                    <i class="fa-solid fa-plus"></i> New Item
+                </a>
+                <a href="../purchase-form/purchase-form.html" class="nav-item">
+                    <i class="fa-solid fa-cart-shopping"></i> Record Purchase
+                </a>
+                <a href="../sale-form/sale-form.html" class="nav-item">
+                    <i class="fa-solid fa-receipt"></i> Record Sale
+                </a>
+            </div>
+            <div class="nav-section">
+                <span class="nav-section-title">Lists</span>
+                <a href="../item-list/item-list.html" class="nav-item">
+                    <i class="fa-solid fa-boxes-stacked"></i> All Items
+                </a>
+                <a href="../purchase-list/purchase-list.html" class="nav-item">
+                    <i class="fa-solid fa-file-invoice"></i> Purchases
+                </a>
+                <a href="../sale-list/sale-list.php" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i> Sales
+                </a>
+            </div>
+        </nav>
+        <a href="../profile/profile.php" class="nav-item profile-link">
+            <i class="fa-solid fa-user"></i> Profile
+        </a>
     </aside>
 
     <div class="main-wrapper">
@@ -379,7 +450,7 @@
                         <div class="form-group">
                             <label for="item-id">Item ID</label>
                             <div class="input-wrapper">
-                                <input type="text" id="item-id" name="item_id" placeholder="SM-PR-2024">
+                                <input type="text" id="item-id" name="item_id" placeholder="ITM-001">
                                 <i class="fa-solid fa-arrows-rotate inner-icon"></i>
                             </div>
                         </div>
