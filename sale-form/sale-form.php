@@ -6,22 +6,32 @@ $total = 0;
 // SAVE DATA
 if(isset($_POST['submit'])){
 
-    $date = $_POST['date'];
-    $item = $_POST['item'];
-    $quantity = $_POST['quantity'];
-    $cost = $_POST['cost'];
+    $date = $_POST['date'] ?? '';
+    $item_id = $_POST['item_id'] ?? '';
+    $quantity = $_POST['quantity'] ?? 0;
+    $unit_price = $_POST['unit_price'] ?? 0;
 
     // CALCULATE TOTAL
-    $total = $quantity * $cost;
+    $total = (float)$quantity * (float)$unit_price;
 
     // DATABASE CONNECTION
-    $conn = mysqli_connect("localhost","root","","shopflow");
+    $conn = mysqli_connect("localhost","root","password","shopflow");
 
     // INSERT INTO DATABASE
-    $sql = "INSERT INTO sales(date_of_sale,item_name,quantity,unit_cost,total_amount)
-            VALUES('$date','$item','$quantity','$cost','$total')";
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
 
-    mysqli_query($conn,$sql);
+    $sale_id = 'SAL-' . date('Yis') . '-' . random_int(100, 999);
+
+    $sql = "INSERT INTO sales (sale_id, date, item_id, quantity, unit_price, total_price)
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, 'sssidd', $sale_id, $date, $item_id, $quantity, $unit_price, $total);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    mysqli_close($conn);
 
     echo "<script>alert('Sale Recorded Successfully');</script>";
 }
@@ -34,6 +44,9 @@ if(isset($_POST['submit'])){
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <title>Shopflow - Record Sale</title>
 
@@ -113,6 +126,7 @@ body{
 /* MAIN CONTENT */
 
 .main{
+    margin-left: 230px;
     flex:1;
     padding:30px;
 }
@@ -266,24 +280,11 @@ select{
 
     <!-- SIDEBAR -->
 
-    <div class="sidebar">
-
-        <div class="logo">
-            <h2>Shopflow</h2>
-            <p>SME MANAGEMENT</p>
-        </div>
-
-        <div class="menu">
-            <a href="#">Dashboard</a>
-            <a href="#">New Item</a>
-            <a href="#">Record Purchase</a>
-            <a href="#" class="active">Record Sale</a>
-            <a href="#">All Items</a>
-            <a href="#">Purchases</a>
-            <a href="#">Sales</a>
-        </div>
-
-    </div>
+    <?php
+    $base_path = '../';
+    $current_page = 'sale-form';
+    include '../core/navigation.php';
+    ?>
 
     <!-- MAIN CONTENT -->
 
@@ -321,15 +322,7 @@ select{
                     <div class="form-group">
                         <label>Item ID</label>
 
-                        <select name="item">
-
-                            <option>Select Item</option>
-                            <option>Rice</option>
-                            <option>Sugar</option>
-                            <option>Soap</option>
-                            <option>Bread</option>
-
-                        </select>
+                        <input type="text" name="item_id" placeholder="ITM-001" required>
 
                     </div>
 
@@ -345,8 +338,8 @@ select{
                     </div>
 
                     <div class="form-group">
-                        <label>Unit Cost (UGX)</label>
-                        <input type="number" id="cost" name="cost" placeholder="UGX 0" required>
+                        <label>Unit Price (UGX)</label>
+                        <input type="number" id="cost" name="unit_price" placeholder="UGX 0" required>
                     </div>
 
                 </div>
