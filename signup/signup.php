@@ -75,7 +75,7 @@ $stmt->bind_param('sss', $full_name, $email, $hashed_password);
  
 if ($stmt->execute()) {
     $msg = urlencode('✅ Account for ' . $full_name . ' created successfully!');
-    header('Location: signup.html?msg=' . $msg);
+    header('Location: ../login/login.html?msg=' . $msg);
 } else {
     echo "<script>alert('Registration failed: " . addslashes($stmt->error) . "'); window.history.back();</script>";
 }
