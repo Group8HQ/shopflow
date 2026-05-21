@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 // $_SESSION['user_id'] = 1;
 
-require_once 'profile_db.php';
+require __DIR__ . '/profile_db.php';
 
 $user_id = $_SESSION['user_id'];
 $user    = getUserById($conn, $user_id);
@@ -18,15 +18,15 @@ $error_msg   = '';
 
 // Handle Edit Information form
 if (isset($_POST['update_info'])) {
-    $full_name = trim($_POST['full_name']);
-    $email     = trim($_POST['email']);
+    $name  = trim($_POST['name']);
+    $email = trim($_POST['email']);
 
-    if (empty($full_name) || empty($email)) {
+    if (empty($name) || empty($email)) {
         $error_msg = "Name and email cannot be empty.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error_msg = "Please enter a valid email address.";
     } else {
-        $result = updateUserInfo($conn, $user_id, $full_name, $email);
+        $result = updateUserInfo($conn, $user_id, $name, $email);
         if ($result === true) {
             $success_msg = "Profile updated successfully.";
             $user = getUserById($conn, $user_id); // refresh
@@ -65,42 +65,19 @@ if (isset($_POST['update_password'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile – ShopFlow</title>
+    <title>Profile – ShopFlow</title>
+    <link rel="stylesheet" href="../dashboard/style.css">
     <link rel="stylesheet" href="profile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-<!-- ========== SIDEBAR ========== -->
-<aside class="sidebar">
-    <div class="sidebar__brand">
-        <span class="brand-name">Shopflow</span>
-        <span class="brand-sub">ENTERPRISE MANAGEMENT</span>
-    </div>
-
-    <nav class="sidebar__nav">
-        <a href="../dashboard/dashboard.php" class="nav-item">
-            <span class="nav-icon">&#9783;</span> Dashboard
-        </a>
-        <a href="../item-form/item-form.php" class="nav-item">
-            <span class="nav-icon">&#43;</span> New Item
-        </a>
-        <a href="../purchase-form/purchase-form.php" class="nav-item">
-            <span class="nav-icon">&#128722;</span> Record Purchase
-        </a>
-        <a href="../sale-form/sale-form.php" class="nav-item">
-            <span class="nav-icon">&#128179;</span> Record Sale
-        </a>
-        <a href="../item-list/item-list.php" class="nav-item">
-            <span class="nav-icon">&#9776;</span> All Items
-        </a>
-        <a href="../purchase-list/purchase-list.php" class="nav-item">
-            <span class="nav-icon">&#128203;</span> Purchases
-        </a>
-        <a href="../sale-list/sale-list.php" class="nav-item">
-            <span class="nav-icon">&#128200;</span> Sales
-        </a>
-    </nav>
-</aside>
+<?php
+$base_path = '../';
+$current_page = 'profile';
+include '../core/navigation.php';
+?>
 
 <!-- ========== MAIN ========== -->
 <main class="main">
@@ -132,8 +109,8 @@ if (isset($_POST['update_password'])) {
                 <!-- View mode -->
                 <div id="info-view">
                     <div class="field-group">
-                        <label class="field-label">Full Legal Name</label>
-                        <p class="field-value"><?php echo htmlspecialchars($user['full_name']); ?></p>
+                        <label class="field-label">Full Name</label>
+                        <p class="field-value"><?php echo htmlspecialchars($user['name']); ?></p>
                     </div>
                     <div class="field-group">
                         <label class="field-label">Primary Email</label>
@@ -148,9 +125,9 @@ if (isset($_POST['update_password'])) {
                 <!-- Edit mode (hidden by default) -->
                 <form id="info-form" method="POST" action="profile.php" class="hidden">
                     <div class="field-group">
-                        <label class="field-label" for="full_name">Full Legal Name</label>
-                        <input class="input" type="text" id="full_name" name="full_name"
-                            value="<?php echo htmlspecialchars($user['full_name']); ?>" required>
+                        <label class="field-label" for="name">Full Name</label>
+                        <input class="input" type="text" id="name" name="name"
+                            value="<?php echo htmlspecialchars($user['name']); ?>" required>
                     </div>
                     <div class="field-group">
                         <label class="field-label" for="email">Primary Email</label>
@@ -208,6 +185,13 @@ if (isset($_POST['update_password'])) {
             </div>
 
         </div><!-- /.cards-row -->
+
+        <!-- Logout -->
+        <div class="logout-section">
+            <a href="../logout.php" class="btn btn--logout">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
+        </div>
     </div><!-- /.content -->
 </main>
 
