@@ -15,7 +15,7 @@ if(isset($_POST['submit'])){
     $total = (float)$quantity * (float)$unit_price;
 
     // DATABASE CONNECTION
-    $conn = mysqli_connect("localhost","root","password","shopflow");
+    $conn = mysqli_connect("localhost","root","","shopflow");
 
     // INSERT INTO DATABASE
     if (!$conn) {

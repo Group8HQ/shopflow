@@ -16,7 +16,7 @@
             <a href="<?php echo $base_path; ?>purchase-form/purchase.html" class="nav-item <?php echo ($current_page == 'purchase-form') ? 'active' : ''; ?>">
                 <i class="fa-solid fa-cart-shopping"></i> Record Purchase
             </a>
-            <a href="<?php echo $base_path; ?>sale-form/sale-form.html" class="nav-item <?php echo ($current_page == 'sale-form') ? 'active' : ''; ?>">
+            <a href="<?php echo $base_path; ?>sale-form/sale-form.php" class="nav-item <?php echo ($current_page == 'sale-form') ? 'active' : ''; ?>">
                 <i class="fa-solid fa-receipt"></i> Record Sale
             </a>
         </div>
