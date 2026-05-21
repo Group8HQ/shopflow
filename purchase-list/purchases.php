@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 $host    = 'localhost';
 $db_name = 'shopflow';
 $user    = 'root';
-$pass    = 'password';
+$pass    = '';
 
 // ─── Pagination Settings ──────────────────────────────────────────────────────
 $records_per_page = 5;
