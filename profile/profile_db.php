@@ -20,7 +20,7 @@ if (!$conn) {
  * @return array|null  Associative row or null if not found.
  */
 function getUserById($conn, $user_id) {
-    $stmt = mysqli_prepare($conn, "SELECT id, full_name, email, password FROM users WHERE id = ?");
+    $stmt = mysqli_prepare($conn, "SELECT id, name, email, password FROM users WHERE id = ?");
     mysqli_stmt_bind_param($stmt, "i", $user_id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
@@ -34,7 +34,7 @@ function getUserById($conn, $user_id) {
  *
  * @return true|string  true on success, error message string on failure.
  */
-function updateUserInfo($conn, $user_id, $full_name, $email) {
+function updateUserInfo($conn, $user_id, $name, $email) {
     // Check email uniqueness (exclude current user)
     $check = mysqli_prepare($conn, "SELECT id FROM users WHERE email = ? AND id != ?");
     mysqli_stmt_bind_param($check, "si", $email, $user_id);
@@ -47,8 +47,8 @@ function updateUserInfo($conn, $user_id, $full_name, $email) {
     }
     mysqli_stmt_close($check);
 
-    $stmt = mysqli_prepare($conn, "UPDATE users SET full_name = ?, email = ? WHERE id = ?");
-    mysqli_stmt_bind_param($stmt, "ssi", $full_name, $email, $user_id);
+    $stmt = mysqli_prepare($conn, "UPDATE users SET name = ?, email = ? WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, "ssi", $name, $email, $user_id);
     $ok = mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 

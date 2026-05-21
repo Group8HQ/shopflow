@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (mysqli_query($conn, $sql)) {
         echo "<p style='color:green;'>Item saved successfully!</p>";
+        header("Location: item-form.html");
     } else {
         echo "<p style='color:red;'>Error: " . mysqli_error($conn) . "</p>";
     }
