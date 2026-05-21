@@ -40,6 +40,7 @@ https://www.figma.com/design/CgchNWRhxQBGLYQokhlwIV/Shopflow?node-id=0-1&t=1Yw67
 ```text
 shopflow/
 │
+├── core/
 ├── login/
 ├── signup/
 ├── dashboard/
@@ -51,7 +52,9 @@ shopflow/
 ├── sale-list/
 ├── profile/
 │
+├── .gitignore
 ├── index.php
+├── logout.php
 └── README.md
 ```
 
