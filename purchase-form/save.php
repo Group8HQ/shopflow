@@ -1,6 +1,6 @@
 
 <?php
-$conn = mysqli_connect("localhost", "root", "password", "shopflow");
+$conn = mysqli_connect("localhost", "root", "", "shopflow");
 
 $purchase_id = $_POST['purchase_id'];
 $date        = $_POST['date'];
