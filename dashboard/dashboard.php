@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $host = 'localhost';
 $username = 'root';
-$password = '';
+$password = 'password';
 $db = "shopflow";
 
 $conn = new mysqli($host, $username, $password, $db);

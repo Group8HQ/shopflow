@@ -1,9 +1,15 @@
 <?php
-// ─── Database Configuration ───────────────────────────────────────────────────
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../login/login.html');
+    exit;
+}
+
 $host    = 'localhost';
 $db_name = 'shopflow';
 $user    = 'root';
-$pass    = '';
+$pass    = 'password';
 
 // ─── Pagination Settings ──────────────────────────────────────────────────────
 $records_per_page = 5;
@@ -31,7 +37,7 @@ function getDB() {
 function fetchSummary() {
     $conn = getDB();
 
-    $sql    = "SELECT COALESCE(SUM(total_cost), 0) AS total_purchases, COALESCE(SUM(quantity_purchased), 0) AS total_units FROM purchases";
+    $sql    = "SELECT COALESCE(SUM(total_cost), 0) AS total_purchases, COALESCE(SUM(quantity), 0) AS total_units FROM purchases";
     $result = mysqli_query($conn, $sql);
     $row    = mysqli_fetch_assoc($result);
 
@@ -46,7 +52,7 @@ function fetchPurchases($page) {
     $limit  = $records_per_page;
     $offset = ($page - 1) * $limit;
 
-    $sql  = "SELECT p.id, p.purchase_date, p.item_id, p.quantity_purchased, p.unit_cost, p.total_cost FROM purchases p ORDER BY p.purchase_date DESC LIMIT ? OFFSET ?";
+    $sql  = "SELECT p.id, p.date, p.item_id, p.quantity, p.unit_cost, p.total_cost FROM purchases p ORDER BY p.date DESC LIMIT ? OFFSET ?";
     $stmt = mysqli_prepare($conn, $sql);
 
     mysqli_stmt_bind_param($stmt, 'ii', $limit, $offset);
@@ -140,6 +146,7 @@ function formatUGX($amount) {
     <title>Purchases – Shopflow</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Sora:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -213,6 +220,7 @@ function formatUGX($amount) {
         /* ── Main ────────────────────────────────────── */
         .main {
             flex: 1;
+            margin-left: 230px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -399,42 +407,11 @@ function formatUGX($amount) {
 </head>
 <body>
 
-<!-- ── Sidebar ──────────────────────────────────────────────────────────────── -->
-<aside class="sidebar">
-    <div class="sidebar-brand">
-        <h1>Shopflow</h1>
-        <p>Enterprise Management</p>
-    </div>
-
-    <a href="dashboard.php" class="nav-item">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Dashboard
-    </a>
-    <a href="new-item.php" class="nav-item">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-        New Item
-    </a>
-    <a href="record-purchase.php" class="nav-item">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        Record Purchase
-    </a>
-    <a href="record-sale.php" class="nav-item">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Record Sale
-    </a>
-    <a href="items.php" class="nav-item">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-        All Items
-    </a>
-    <a href="purchases.php" class="nav-item active">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        Purchases
-    </a>
-    <a href="sales.php" class="nav-item">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Sales
-    </a>
-</aside>
+<?php
+$base_path = '../';
+$current_page = 'purchase-list';
+include '../core/navigation.php';
+?>
 
 <!-- ── Main ─────────────────────────────────────────────────────────────────── -->
 <div class="main">
@@ -495,13 +472,13 @@ function formatUGX($amount) {
                     <tbody>
                         <?php foreach ($purchases as $row): ?>
                         <tr>
-                            <td><?= htmlspecialchars(date('M d, Y', strtotime($row['purchase_date']))) ?></td>
+                            <td><?= htmlspecialchars(date('M d, Y', strtotime($row['date']))) ?></td>
                             <td>
                                 <a href="item-detail.php?id=<?= urlencode($row['item_id']) ?>" class="item-id">
                                     <?= htmlspecialchars($row['item_id']) ?>
                                 </a>
                             </td>
-                            <td><?= number_format((int) $row['quantity_purchased']) ?> Units</td>
+                            <td><?= number_format((int) $row['quantity']) ?> Units</td>
                             <td><?= number_format((float) $row['unit_cost'], 0, '.', ',') ?></td>
                             <td class="total-cost"><?= number_format((float) $row['total_cost'], 0, '.', ',') ?></td>
                             <td>
