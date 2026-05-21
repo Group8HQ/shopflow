@@ -1,6 +1,6 @@
 
 <?php
-$conn = mysqli_connect("localhost", "root", "", "shopflow");
+$conn = mysqli_connect("localhost", "root", "password", "shopflow");
 
 $purchase_id = $_POST['purchase_id'];
 $date        = $_POST['date'];
@@ -14,6 +14,8 @@ $query = "INSERT INTO purchases(purchase_id, date, item_id, quantity, unit_cost,
 
 
 $querry = mysqli_query($conn, $query);
+
+header("Location: ./purchase.html");
 
 mysqli_close($conn);
 ?>
