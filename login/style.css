@@ -174,3 +174,20 @@ body {
 .signup-prompt a:hover {
     text-decoration: underline;
 }
+
+#toast {
+    display: none;
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ef4444;
+    color: #ffffff;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    z-index: 9999;
+    text-align: center;
+}
