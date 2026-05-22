@@ -23,7 +23,7 @@
 
         <div class="nav-section">
             <span class="nav-section-title">Lists</span>
-            <a href="<?php echo $base_path; ?>item-list/item-list.html" class="nav-item <?php echo ($current_page == 'item-list') ? 'active' : ''; ?>">
+            <a href="<?php echo $base_path; ?>item-list/item-list.php" class="nav-item <?php echo ($current_page == 'item-list') ? 'active' : ''; ?>">
                 <i class="fa-solid fa-boxes-stacked"></i> All Items
             </a>
             <a href="<?php echo $base_path; ?>purchase-list/purchases.php" class="nav-item <?php echo ($current_page == 'purchase-list') ? 'active' : ''; ?>">
