@@ -98,7 +98,7 @@ $sales = $conn->query("
                         <?php if ($sales && $sales->num_rows > 0): ?>
                             <?php while ($row = $sales->fetch_assoc()): ?>
                             <tr>
-                                <td><?php echo date('M d, Y · H:i', strtotime($row['date'])); ?></td>
+                                <td><?php echo date('M d, Y', strtotime($row['date'])); ?></td>
                                 <td><span class="item-id">#<?php echo htmlspecialchars($row['item_id']); ?></span></td>
                                 <td class="quantity"><?php echo number_format($row['quantity']); ?></td>
                                 <td class="unit-price"><?php echo number_format($row['unit_price']); ?></td>
