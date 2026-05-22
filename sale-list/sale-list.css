@@ -166,3 +166,7 @@
 .page-btn i {
     font-size: 12px;
 }
+
+.quantity, .unit-price, .total-price {
+    text-align: center !important;
+}
