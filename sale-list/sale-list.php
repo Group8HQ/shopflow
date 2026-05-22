@@ -100,9 +100,9 @@ $sales = $conn->query("
                             <tr>
                                 <td><?php echo date('M d, Y · H:i', strtotime($row['date'])); ?></td>
                                 <td><span class="item-id">#<?php echo htmlspecialchars($row['item_id']); ?></span></td>
-                                <td><?php echo number_format($row['quantity']); ?></td>
-                                <td><?php echo number_format($row['unit_price']); ?></td>
-                                <td><strong><?php echo number_format($row['total_price']); ?></strong></td>
+                                <td class="quantity"><?php echo number_format($row['quantity']); ?></td>
+                                <td class="unit-price"><?php echo number_format($row['unit_price']); ?></td>
+                                <td class="total-price"><strong><?php echo number_format($row['total_price']); ?></strong></td>
                                 <td>
                                     <a href="sale-list.php?delete=<?php echo urlencode($row['sale_id']); ?>" class="action-link delete" onclick="return confirm('Are you sure you want to delete this sale?');">DELETE</a>
                                 </td>
